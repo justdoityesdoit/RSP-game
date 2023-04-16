@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>rock sessors paper</title>
+  <style>
+    #computer {
+      width: 142px;
+      height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <div id="computer"></div>
+  <div>
+    <button id="scissors" class="btn">scissor</button>
+    <button id="rock" class="btn">rock</button>
+    <button id="paper" class="btn">paper</button>
+  </div>
+  <div id="score">0</div>
+  <script>
+    const $computer = document.querySelector('#computer');
+    const $score = document.querySelector('#score');
+    const $rock = document.querySelector('#rock');
+    const $scissors = document.querySelector('#scissors');
+    const $paper = document.querySelector('#paper');
+    const IMG_URL = './rsp.png';
+    $computer.style.background = `url(${IMG_URL}) -464px 0`; //paper
+    $computer.style.backgroundSize = 'auto 200px';
+
+    const rspX = {
+      scissors: '0', //scissors
+      rock: '-220px', //rock
+      paper: '-440px', //paper
+    };
+
+    let computerChoice = 'scissors';
+    const changeComputerHand = () => {
+      if (computerChoice === 'rock') {
+        computerChoice = 'scissors';
+      } else if (computerChoice === 'scissors' ) {
+        computerChoice = 'paper';
+      } else if (computerChoice === 'paper'){
+        computerChoice = 'rock';
+      }
+      $computer.style.background = `url(${IMG_URL}) ${rspX[computerChoice]} 0`;
+      $computer.style.backgroundSize = 'auto 200px';
+    }
+    let IntervalId = setInterval(changeComputerHand, 50);
+
+    const scoreTable = {
+      rock: 0,
+      scissors: 1,
+      paper: -1,
+    };
+
+
+
+  let clickable = true;
+  let score = 0;
+  const clickButton = () => {
+    if (clickable) {
+      clearInterval(IntervalId);
+      clickable = false;
+      //check the score and display
+      const myChoice = event.target.textContent === 'rock'
+        ? 'rock'
+        : event.target.textContent === 'scissors'
+          ? 'scissors'
+          : 'paper';
+
+      const myScore = scoreTable[myChoice];
+      const computerScore = scoreTable[computerChoice];
+      const diff = myScore - computerScore;
+
+      let message;
+      //2,-1 for win and -2,1for lose, refer to scoreTable
+      if ([2, -1].includes(diff)) {
+        score += 1;
+        message = 'you win!!'
+      } else if ([-2, 1].includes(diff)) {
+        score -= 1;
+        message = 'you lose!!'
+      } else {
+        message = 'Drawn...'
+      }
+      $score.textContent = `${message} totally: ${score}score`;
+      setTimeout(() => {
+        clickable = true;
+        IntervalId = setInterval(changeComputerHand, 50);
+      }, 1000);
+    }
+  };
+
+    $rock.addEventListener('click', clickButton);
+    $scissors.addEventListener('click', clickButton);
+    $paper.addEventListener('click', clickButton);
+  </script>
+</body>
+</html>
+
+
+
+GPT's explains are below:
+
+const $computer = document.querySelector('#computer');
+//This line declares a constant variable $computer and 
+assigns it the value of the HTML element with the id attribute 
+of computer using the querySelector method of the document object.
+
+
+
+const changeComputerHand = () => {
+  if (computerChoice === 'rock') {
+    computerChoice = 'scissors';
+  } else if (computerChoice === 'scissors' ) {
+    computerChoice = 'paper';
+  } else if (computerChoice === 'paper'){
+    computerChoice = 'rock';
+  }
+  $computer.style.background = `url(${IMG_URL}) ${rspX[computerChoice]} 0`;
+  $computer.style.backgroundSize = 'auto 200px';
+}
+//This block of code defines a function changeComputerHand that changes the 
+computerChoice variable to a different hand gesture (scissors, rock, or paper) 
+based on its current value, and then updates the $computer element's background 
+image to display the corresponding hand gesture.
+
+
+
+let IntervalId = setInterval(changeComputerHand, 50);
+//This line declares a variable IntervalId and assigns it the return value of the `
